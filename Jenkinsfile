@@ -30,26 +30,33 @@ podTemplate(label: 'jenkins-pipeline', containers: [
         // compile tag list
         def image_tags_list = pipeline.getMapValues(image_tags_map)
 
-        stage('compile and test') {
+        stage('Compile and Verify') {
 
             container('mvn') {
                 sh "ls"
                 sh "cat src/main/java/example/Application.java"
-                sh "mvn clean install"
+                sh "mvn clean compile"
             }
 
         }
 
-        stage('security scan') {
+        stage('Security Scan') {
             container('mvn') {
                 sh "mvn org.owasp:dependency-check-maven:aggregate"
 
             }
         }
 
+        stage('Test') {
+            container('mvn') {
+                sh "mvn test"
+
+            }
+        }
+
         stage('build image') {
             container('docker') {
-                sh "docker build -t example-backend:${env.BUILD_NUMBER} ."
+                sh "docker build . -t user-service:${env.BUILD_NUMBER} ."
 
             }
         }
