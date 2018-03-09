@@ -54,7 +54,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
 
         stage('build image') {
             container('docker') {
-                sh "docker build . -t user-service:${env.BUILD_NUMBER} ."
+                sh "docker build -t user-service:${env.BUILD_NUMBER} ."
 
             }
         }
