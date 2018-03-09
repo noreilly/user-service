@@ -63,7 +63,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>1.4.5</version>
+                <configuration>
+                    <!-- Skip artifacts not bundled in distribution (provided scope) -->
+                    <skipProvidedScope>true</skipProvidedScope>
+                    <!-- Suppress false positives or dependencies that cannot be changed for specific reasons.-->
+                    <suppressionFile>suppressed-cves.xml</suppressionFile>
+                </configuration>
+                <!-- Don't specify an execution, because this might take long and is not needed in every build.
+                     A report can be generated on demand using "mvn org.owasp:dependency-check-maven:check"
+                     report will be saved to target/dependency-check-report.html -->
+            </plugin>
+
+
         </plugins>
+
     </build>
 
     <dependencies>
@@ -71,6 +88,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
