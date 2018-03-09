@@ -42,7 +42,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
 
         stage('security scan') {
             container('mvn') {
-                sh "mvn org.owasp:dependency-check-maven:check"
+                sh "mvn org.owasp:dependency-check-maven:aggregate"
 
             }
         }
